@@ -27,7 +27,7 @@ async function api(path, opts = {}) {
 }
 
 const ADMIN_WA_FALLBACK = "6281234567890"; // nomor bawaan; admin bisa menggantinya lewat bot: /wa 628xxxxxxxxxx
-const NEXT_ORDER = "%2Forder.html%23order";
+const NEXT_ORDER = "%2Forder%23order";
 const DEFAULT_CFG = {
   countries: [
     { name: "Indonesia", code: "+62", price: 4500, available: true },
