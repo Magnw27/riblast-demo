@@ -22,7 +22,7 @@ function client() {
 }
 
 /** Naikkan angka ini setiap kali skema berubah; migrasi hanya jalan sekali per versi. */
-export const SCHEMA_V = "4";
+export const SCHEMA_V = "5";
 
 let ready = null;
 
@@ -93,6 +93,16 @@ async function createSchema() {
     n integer NOT NULL,
     reset_at timestamptz NOT NULL
   )`;
+  await q`CREATE TABLE IF NOT EXISTS chat_messages (
+    id bigserial PRIMARY KEY,
+    sender_user_id integer,
+    sender_name text NOT NULL,
+    sender_kind text NOT NULL DEFAULT 'user' CHECK (sender_kind IN ('user', 'admin')),
+    body text NOT NULL CHECK (char_length(body) BETWEEN 1 AND 4000),
+    created_at timestamptz NOT NULL DEFAULT now(),
+    telegram_message_id bigint
+  )`;
+  await q`CREATE INDEX IF NOT EXISTS chat_messages_created_at_idx ON chat_messages (created_at DESC, id DESC)`;
   await q`CREATE TABLE IF NOT EXISTS number_stock (
     id serial PRIMARY KEY,
     phone text NOT NULL UNIQUE,

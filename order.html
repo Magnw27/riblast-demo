@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>RipBlast – Order Nomor Kosong dan Blast WhatsApp</title>
+<title>Order | RipBlast — Pantau status secara real-time</title>
 <meta name="description" content="Order nomor kosong (nokos) Indonesia, Malaysia, Inggris, dan Amerika. Admin memproses lewat Telegram, nomor dan OTP tampil otomatis di dashboard kamu.">
 <meta name="theme-color" content="#090b14">
 <meta property="og:title" content="RipBlast – Order Nokos, OTP Tampil di Web">
@@ -14,6 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/chat.css">
 </head>
 <body data-page="order">
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -33,6 +34,7 @@
     <div class="nav-group" aria-label="Layanan">
       <span class="nav-group-label">LAYANAN</span>
       <a href="#order">Order</a>
+      <a href="#chat">Chat global</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
@@ -157,6 +159,19 @@
           <button type="button" class="btn ghost more" id="oMore" hidden>Muat lebih banyak</button>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="chat" class="wrap chat-section">
+  <div class="reveal">
+    <div class="section-kicker"><span class="dot"></span>Global lounge</div>
+    <h2>Ngobrol bareng komunitas</h2>
+    <p class="sub">Tanya admin, berbagi info, atau baca pengumuman terbaru. Pesan admin dari Telegram tampil dengan badge premium.</p>
+    <div class="chat-shell card">
+      <div class="chat-head"><div><b>RipBlast Lounge</b><span>Pesan terbaru tampil otomatis</span></div><button class="iconbtn" id="chatRefresh" type="button" aria-label="Muat ulang chat">↻</button></div>
+      <div id="chatList" class="chat-list" aria-live="polite"><div class="chat-empty">Login untuk melihat percakapan global.</div></div>
+      <form id="chatForm" class="chat-form"><label class="sr-only" for="chatInput">Tulis pesan</label><textarea id="chatInput" rows="2" maxlength="4000" placeholder="Tulis pesan untuk komunitas…"></textarea><button class="btn" type="submit">Kirim</button></form>
     </div>
   </div>
 </section>

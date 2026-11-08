@@ -81,10 +81,17 @@
 
 <div class="ticker" aria-hidden="true"><div class="ticker-track" id="tickerTrack"></div></div>
 
+<section class="wrap trust-strip" aria-label="Keunggulan RipBlast">
+  <div class="trust-item"><span class="trust-icon">01</span><div><b>Alur tercatat</b><span>Setiap order punya kode unik dan riwayat lengkap.</span></div></div>
+  <div class="trust-item"><span class="trust-icon mint">02</span><div><b>Status real-time</b><span>Perubahan dari admin tampil otomatis di dashboard.</span></div></div>
+  <div class="trust-item"><span class="trust-icon amber">03</span><div><b>Admin terhubung</b><span>Order baru langsung masuk ke panel Telegram.</span></div></div>
+</section>
+
 <section id="order" class="wrap">
   <div class="reveal">
-    <h2>Order nomor kosong</h2>
-    <p class="sub">Pilih negara dan jumlah nomor, lalu kirim. Belum punya akun? Kamu akan diarahkan untuk daftar dulu, lalu kembali ke sini. Admin menerima ordermu lewat bot Telegram.</p>
+    <div class="section-kicker"><i class="dot"></i> Pesan nomor dengan alur yang jelas</div>
+    <h2>Mulai order dalam hitungan detik</h2>
+    <p class="sub">Pilih negara, atur jumlah, lalu kirim. Setelah masuk, kamu bisa mengikuti setiap perubahan status dari dashboard tanpa perlu chat bolak-balik dengan admin.</p>
 
     <div class="g12" id="orderApp">
       <div class="card c5 formcard">
@@ -120,7 +127,7 @@
 
       <div class="card c7 dashcard">
         <div class="dash-head">
-          <h3>Dashboard saya <span class="live" id="liveTag" hidden><i class="dot"></i><span id="liveTxt">live</span></span></h3>
+          <div><div class="section-kicker compact"><i class="dot"></i> Ruang kerja kamu</div><h3>Dashboard order <span class="live" id="liveTag" hidden><i class="dot"></i><span id="liveTxt">live</span></span></h3></div>
           <button type="button" class="iconbtn" id="bell" aria-pressed="false" title="Notifikasi saat OTP masuk" hidden>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
