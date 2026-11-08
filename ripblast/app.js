@@ -238,7 +238,7 @@ authBtn.addEventListener("click", e => {
 });
 document.addEventListener("click", e => { if (!menu.hidden && !menu.contains(e.target)) closeMenu(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
-$("#mDash").addEventListener("click", () => { closeMenu(); if (document.body.dataset.page !== "order") { location.href = "/order.html#order"; return; } $("#order").scrollIntoView({ behavior: rm ? "auto" : "smooth" }); });
+$("#mDash").addEventListener("click", () => { closeMenu(); if (document.body.dataset.page !== "order") { location.href = "order.html#order"; return; } $("#order").scrollIntoView({ behavior: rm ? "auto" : "smooth" }); });
 $("#mOut").addEventListener("click", () => { closeMenu(); logout(); });
 $("#mPass").addEventListener("click", () => {
   closeMenu();
