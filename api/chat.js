@@ -16,7 +16,9 @@ export default async function handler(req, res) {
       const rows = before
         ? await q`SELECT id, sender_name, sender_kind, body, created_at FROM chat_messages WHERE id < ${before} ORDER BY id DESC LIMIT 50`
         : await q`SELECT id, sender_name, sender_kind, body, created_at FROM chat_messages ORDER BY id DESC LIMIT 50`;
-      return send(res, 200, { messages: rows.reverse() });
+      const settings = await q`SELECT key, value FROM settings WHERE key IN ('popup', 'announce')`;
+      const notices = Object.fromEntries(settings.map((item) => [item.key, item.value]));
+      return send(res, 200, { messages: rows.reverse(), popup: notices.popup || '', announce: notices.announce || '' });
     }
     if (req.method !== "POST" || !sameOrigin(req)) return send(res, 405, { error: "Method not allowed" });
     const rl = await rateLimit(`chat:${user.id}`, 20, 60);

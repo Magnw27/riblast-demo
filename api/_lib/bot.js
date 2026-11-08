@@ -35,7 +35,7 @@ const HELP = [
   "/settings — panel harga, stok, maintenance",
   "/setprice indo 5000 · /negara us off (buka/tutup negara di web)",
   "/maintenance on [pesan] · /maintenance off",
-  "/announce teks · /announce off · /chat teks (mendukung multiline) · /wa 628xxx",
+  "/announce teks · /announce off · /popup teks · /chat teks · /clear", 
   "/notif on|off — notifikasi user baru",
   "",
   "<b>Laporan</b>",
@@ -591,10 +591,28 @@ const COMMANDS = {
     return say("✅ Maintenance <b>OFF</b>: order dibuka lagi.");
   },
   async chat({ q, say, rest, msg }) {
-    const body = String(rest ?? '').trim().slice(0, 4000);
-    if (!body) return say('Contoh: <code>./chat Promo hari ini</code> — baris baru tetap dipertahankan.');
-    const [row] = await q`INSERT INTO chat_messages (sender_name, sender_kind, body, telegram_message_id) VALUES ('Admin RipBlast', 'admin', ${body}, ${msg.message_id}) RETURNING id`;
+    const body = String(rest ?? '').trim();
+    if (/^\/clear$/i.test(body) || /^clear$/i.test(body)) {
+      const rows = await q`DELETE FROM chat_messages RETURNING id`;
+      return say(`Chat global dibersihkan. ${rows.length} pesan dihapus.`);
+    }
+    const text = body.slice(0, 4000);
+    if (!text) return say('Contoh: <code>./chat Promo hari ini</code> — baris baru tetap dipertahankan. Gunakan <code>./chat /clear</code> untuk membersihkan riwayat.');
+    const [row] = await q`INSERT INTO chat_messages (sender_name, sender_kind, body, telegram_message_id) VALUES ('Admin RipBlast', 'admin', ${text}, ${msg.message_id}) RETURNING id`;
     return say(`Chat global terkirim (#${row.id}).`);
+  },
+  async clear({ q, say }) {
+    const rows = await q`DELETE FROM chat_messages RETURNING id`;
+    return say(`Chat global dibersihkan. ${rows.length} pesan dihapus.`);
+  },
+  async popup({ q, say, rest }) {
+    const text = String(rest ?? '').trim();
+    if (!text || /^(off|hapus|-)$/i.test(text)) {
+      await delSetting(q, 'popup');
+      return say('Popup announcement dimatikan.');
+    }
+    await setSetting(q, 'popup', text.slice(0, 1000));
+    return say('Popup announcement aktif dan tampil di halaman chat.');
   },
   async announce({ q, say, rest }) {
     if (!rest) return say("Contoh: <code>/announce Promo Malaysia hari ini</code> atau <code>/announce off</code>");
