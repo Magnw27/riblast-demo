@@ -27,7 +27,7 @@ async function api(path, opts = {}) {
 }
 
 const ADMIN_WA_FALLBACK = "6281234567890"; // nomor bawaan; admin bisa menggantinya lewat bot: /wa 628xxxxxxxxxx
-const NEXT_ORDER = "%2F%23order";
+const NEXT_ORDER = "%2Forder.html%23order";
 const DEFAULT_CFG = {
   countries: [
     { name: "Indonesia", code: "+62", price: 4500, available: true },
@@ -238,7 +238,7 @@ authBtn.addEventListener("click", e => {
 });
 document.addEventListener("click", e => { if (!menu.hidden && !menu.contains(e.target)) closeMenu(); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
-$("#mDash").addEventListener("click", () => { closeMenu(); $("#order").scrollIntoView({ behavior: rm ? "auto" : "smooth" }); });
+$("#mDash").addEventListener("click", () => { closeMenu(); if (document.body.dataset.page !== "order") { location.href = "/order.html#order"; return; } $("#order").scrollIntoView({ behavior: rm ? "auto" : "smooth" }); });
 $("#mOut").addEventListener("click", () => { closeMenu(); logout(); });
 $("#mPass").addEventListener("click", () => {
   closeMenu();
