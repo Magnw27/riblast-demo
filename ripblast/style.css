@@ -386,3 +386,10 @@ h1.authh{font-size:1.9rem;margin:0 0 8px;font-weight:800}
   .nav-separator{height:20px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.w i{transform:none}.reveal{opacity:1;transform:none}}
+
+
+/* ===== Pemisahan halaman Home dan Order ===== */
+body[data-page="home"] #order, body[data-page="home"] #contact { display:none !important; }
+body[data-page="order"] #home, body[data-page="order"] #tentang, body[data-page="order"] .ticker { display:none !important; }
+body[data-page="order"] main { padding-top: 76px; }
+@media(max-width:640px){ body[data-page="order"] main { padding-top: 54px; } }
