@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>RipBlast – Order Nomor Kosong dan Blast WhatsApp</title>
+<meta name="description" content="Order nomor kosong (nokos) Indonesia, Malaysia, Inggris, dan Amerika. Admin memproses lewat Telegram, nomor dan OTP tampil otomatis di dashboard kamu.">
+<meta name="theme-color" content="#090b14">
+<meta property="og:title" content="RipBlast – Order Nokos, OTP Tampil di Web">
+<meta property="og:description" content="Order nomor kosong, pantau status, dan terima OTP langsung di dashboard. Tanpa chat bolak-balik.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="nav">
+  <a class="logo" href="#home" aria-label="RipBlast beranda">
+    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#ff5b4f"/><path d="M17.5 5 8 18h6l-1.5 9L24 13h-6.5z" fill="#1d0805"/></svg>
+    <b>RipBlast</b>
+  </a>
+  <nav class="links" aria-label="Navigasi utama">
+    <div class="nav-group" aria-label="Informasi">
+      <span class="nav-group-label">INFO</span>
+      <a href="#home" class="on">Home</a>
+      <a href="#tentang">Tentang</a>
+    </div>
+    <span class="nav-separator" aria-hidden="true"></span>
+    <div class="nav-group" aria-label="Layanan">
+      <span class="nav-group-label">LAYANAN</span>
+      <a href="#order">Order</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+  <div class="acct">
+    <button class="btn sm" id="authBtn" type="button" aria-haspopup="menu" aria-expanded="false">Masuk</button>
+    <div class="menu" id="acctMenu" role="menu" hidden>
+      <div class="menu-head"><small>Masuk sebagai</small><b id="mUser">@user</b></div>
+      <button type="button" role="menuitem" id="mDash">Dashboard order</button>
+      <button type="button" role="menuitem" id="mNotif">Notifikasi OTP: <span id="mNotifState">mati</span></button>
+      <button type="button" role="menuitem" id="mPass">Ubah password</button>
+      <button type="button" role="menuitem" id="mOut" class="danger">Keluar</button>
+    </div>
+  </div>
+</header>
+
+<div class="announce" id="announce" role="status" hidden>
+  <span class="ann-ico" aria-hidden="true">📢</span><span id="announceText"></span>
+  <button type="button" id="announceClose" aria-label="Tutup pengumuman">&times;</button>
+</div>
+
+<main>
+<section id="home" class="wrap hero">
+  <div>
+    <span class="pill"><i class="dot" id="pillDot"></i><span id="pillText">Server aktif, stok nomor tersedia</span></span>
+    <h1 aria-label="Order nomor kosong, OTP langsung tampil di web.">
+      <span class="w"><i style="--i:0">Order</i></span> <span class="w"><i style="--i:1">nokos,</i></span>
+      <span class="w"><i style="--i:2" class="hl">OTP</i></span> <span class="w"><i style="--i:3" class="hl">tampil</i></span>
+      <span class="w"><i style="--i:4">di sini.</i></span>
+    </h1>
+    <p class="lead">Login, pilih negara, order nomor kosong. Admin memproses lewat bot Telegram dan hasilnya langsung muncul di dashboard kamu, lengkap dengan nomor dan OTP-nya.</p>
+    <div class="cta"><a class="btn" href="#order">Order sekarang</a><a class="btn ghost" href="#tentang">Cara kerjanya</a></div>
+    <ol class="steps" aria-label="Alur order">
+      <li><b>1</b> Login / daftar</li>
+      <li><b>2</b> Order nomor</li>
+      <li><b>3</b> Admin proses</li>
+      <li><b>4</b> OTP muncul</li>
+    </ol>
+  </div>
+  <div class="stage">
+    <canvas id="blast" aria-label="Animasi pesan keluar dari RipBlast ke banyak penerima" role="img"></canvas>
+    <div class="chip c1" id="chip1"><b>Live</b> status order</div>
+    <div class="chip c2" id="chip2"><b>Otomatis</b> OTP masuk</div>
+    <div class="chip c3" id="chip3"><b>+62 +60 +44 +1</b> siap order</div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<section id="order" class="wrap">
+  <div class="reveal">
+    <h2>Order nomor kosong</h2>
+    <p class="sub">Pilih negara dan jumlah nomor, lalu kirim. Belum punya akun? Kamu akan diarahkan untuk daftar dulu, lalu kembali ke sini. Admin menerima ordermu lewat bot Telegram.</p>
+
+    <div class="g12" id="orderApp">
+      <div class="card c5 formcard">
+        <h3>Form order</h3>
+        <div class="closed" id="oClosed" hidden><b>Order ditutup sementara</b><span id="oClosedMsg"></span></div>
+        <form id="of" novalidate>
+          <fieldset class="countries" id="cList">
+            <legend>Negara</legend>
+          </fieldset>
+
+          <label for="oq">Jumlah nomor</label>
+          <div class="qty">
+            <button type="button" id="qMinus" aria-label="Kurangi jumlah">&minus;</button>
+            <input id="oq" type="number" min="1" max="10" value="1" inputmode="numeric" aria-label="Jumlah nomor">
+            <button type="button" id="qPlus" aria-label="Tambah jumlah">+</button>
+            <div class="qchips" id="qChips"><button type="button" data-q="1">1</button><button type="button" data-q="3">3</button><button type="button" data-q="5">5</button><button type="button" data-q="10">10</button></div>
+          </div>
+
+          <label for="on">Catatan untuk admin <small>opsional</small></label>
+          <textarea id="on" rows="2" maxlength="300" placeholder="Contoh: untuk OTP Telegram"></textarea>
+          <div class="count"><span id="onCount">0</span>/300</div>
+
+          <dl class="sum" aria-live="polite">
+            <div><dt>Harga satuan</dt><dd id="sumPrice">-</dd></div>
+            <div><dt>Jumlah</dt><dd id="sumQty">1 nomor</dd></div>
+            <div class="total"><dt>Total</dt><dd id="sumTotal">-</dd></div>
+          </dl>
+
+          <button class="btn" id="oSend" type="submit"><span class="lbl">Kirim order</span></button>
+        </form>
+        <p class="fineprint" id="oHint">Ordermu langsung terkirim ke admin lewat bot Telegram dan diproses manual.</p>
+      </div>
+
+      <div class="card c7 dashcard">
+        <div class="dash-head">
+          <h3>Dashboard saya <span class="live" id="liveTag" hidden><i class="dot"></i><span id="liveTxt">live</span></span></h3>
+          <button type="button" class="iconbtn" id="bell" aria-pressed="false" title="Notifikasi saat OTP masuk" hidden>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="gate" id="oGuest">
+          <svg viewBox="0 0 24 24" width="42" height="42" aria-hidden="true"><path fill="none" stroke="#7b8cff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+          <h3>Daftar dulu untuk mulai order</h3>
+          <p>Akun menyimpan riwayat order, nomor, dan OTP-mu. Daftar cuma butuh username dan password.</p>
+          <div class="cta">
+            <a class="btn" id="gateReg" href="/register?next=%2F%23order">Daftar</a>
+            <a class="btn ghost" id="gateLogin" href="/login?next=%2F%23order">Masuk</a>
+          </div>
+        </div>
+
+        <div id="dash" hidden>
+          <div class="tiles">
+            <div><b id="tTotal">0</b><span>Total order</span></div>
+            <div><b id="tActive">0</b><span>Sedang jalan</span></div>
+            <div><b id="tDone">0</b><span>Selesai</span></div>
+          </div>
+          <div class="seg" role="tablist" aria-label="Filter order">
+            <button type="button" role="tab" class="on" data-f="all" aria-selected="true">Semua</button>
+            <button type="button" role="tab" data-f="active" aria-selected="false">Aktif</button>
+            <button type="button" role="tab" data-f="done" aria-selected="false">Selesai</button>
+          </div>
+          <ul id="oSkel" class="orders" aria-hidden="true"><li class="skel"></li><li class="skel"></li></ul>
+          <ul id="oList" class="orders" aria-live="polite"></ul>
+          <div class="empty" id="oEmpty" hidden>
+            <div class="empty-ring"><i></i><i></i><i></i><b>0</b></div>
+            <b id="oEmptyT">Belum ada order</b>
+            <span id="oEmptyS">Order pertamamu akan muncul di sini lengkap dengan status, nomor, dan OTP dari admin.</span>
+          </div>
+          <button type="button" class="btn ghost more" id="oMore" hidden>Muat lebih banyak</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tentang" class="wrap">
+  <div class="reveal">
+    <h2>Alurnya simpel, hasilnya nampak</h2>
+    <div class="about">
+      <p class="lead">RipBlast merapikan order nomor kosong jadi satu alur: kamu order di web, admin dipanggil otomatis lewat bot Telegram, dan begitu admin membalas dengan status, nomor, dan OTP, semuanya langsung tampil di dashboard kamu. Tanpa chat bolak-balik, tanpa salah kirim.</p>
+      <dl class="feats">
+        <div><dt>Order tercatat</dt><dd>Setiap order masuk log dan dikirim ke admin lewat bot, lengkap dengan username dan detailnya.</dd></div>
+        <div><dt>Status transparan</dt><dd>Menunggu, diproses, nomor siap, sampai OTP masuk: semua tahap tampil sebagai progres dan update otomatis tanpa refresh.</dd></div>
+        <div><dt>OTP di web</dt><dd>Admin membalas lewat bot, dan nomor serta kode OTP langsung terbaca di dashboard. Bisa disalin sekali tap, dan kamu bisa minta notifikasi saat OTP masuk.</dd></div>
+      </dl>
+    </div>
+
+    <h3 class="faqh">Pertanyaan umum</h3>
+    <div class="faq">
+      <details><summary>Berapa lama order diproses?</summary><p>Admin memproses manual lewat Telegram, biasanya dalam beberapa menit pada jam kerja. Statusnya terlihat live di dashboard, jadi kamu tidak perlu menanyakan ke admin.</p></details>
+      <details><summary>Kapan OTP muncul?</summary><p>Setelah nomor siap, minta kode OTP di aplikasi tujuan. Saat admin memasukkan kodenya, OTP tampil otomatis di kartu order kamu dan bisa langsung disalin.</p></details>
+      <details><summary>Bagaimana kalau order gagal atau salah?</summary><p>Order yang masih menunggu admin bisa kamu batalkan sendiri dari dashboard. Kalau sudah diproses, hubungi admin lewat form Contact dengan menyebut kode ordermu.</p></details>
+      <details><summary>Saya lupa password.</summary><p>Hubungi admin lewat form Contact. Admin bisa membuat password sementara untukmu, lalu kamu menggantinya lewat menu akun.</p></details>
+      <details><summary>Negara apa saja yang tersedia?</summary><p>Indonesia, Malaysia, Inggris, dan Amerika Serikat. Harga dan ketersediaan stok tampil langsung di form order dan bisa berubah sewaktu-waktu.</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="reveal">
+    <h2>Mau tanya dulu sebelum order?</h2>
+    <div class="about">
+      <p class="lead">Isi form, lalu pesanmu terbuka langsung di WhatsApp admin. Biasanya dibalas dalam beberapa menit pada jam kerja.</p>
+      <form id="cf" class="card">
+        <label for="nm">Nama</label><input id="nm" required autocomplete="name">
+        <label for="kb">Kebutuhan</label>
+        <select id="kb"><option>Order nomor kosong</option><option>Blast WhatsApp</option><option>Paket reseller</option><option>Lupa password</option></select>
+        <label for="ps">Pesan</label><textarea id="ps" rows="3" required></textarea>
+        <button class="btn" type="submit">Kirim lewat WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap foot"><span>© 2026 RipBlast</span><span>Gunakan layanan sesuai aturan WhatsApp dan hukum yang berlaku.</span></footer>
+
+<nav class="tabbar" aria-label="Menu cepat">
+  <a href="#home" class="on"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="#tentang"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 8h.01"/></svg>Tentang</a>
+  <span class="tab-divider" aria-hidden="true"></span>
+  <a href="#order"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM11 18h2"/></svg>Order</a>
+  <a href="#contact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Contact</a>
+</nav>
+
+<dialog id="dlgConfirm" class="dlg">
+  <form method="dialog">
+    <h3 id="cfTitle">Yakin?</h3>
+    <p id="cfText"></p>
+    <div class="dlg-act"><button class="btn ghost" value="no" id="cfNo">Tidak</button><button class="btn" value="yes" id="cfOk">Ya</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlgPass" class="dlg">
+  <form id="pf" novalidate>
+    <h3>Ubah password</h3>
+    <label for="pCur">Password lama</label><input id="pCur" type="password" autocomplete="current-password">
+    <label for="pNew">Password baru</label><input id="pNew" type="password" autocomplete="new-password" placeholder="minimal 6 karakter">
+    <label for="pNew2">Ulangi password baru</label><input id="pNew2" type="password" autocomplete="new-password">
+    <p class="formerr" id="pErr" role="alert" hidden></p>
+    <div class="dlg-act"><button type="button" class="btn ghost" id="pCancel">Batal</button><button type="submit" class="btn" id="pGo"><span class="lbl">Simpan</span></button></div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" role="status"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>

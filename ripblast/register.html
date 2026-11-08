@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daftar – RipBlast</title>
+<meta name="theme-color" content="#090b14">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="authpage">
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<main class="authwrap">
+  <a class="logo" href="/" aria-label="Kembali ke beranda RipBlast">
+    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#ff5b4f"/><path d="M17.5 5 8 18h6l-1.5 9L24 13h-6.5z" fill="#1d0805"/></svg>
+    <b>RipBlast</b>
+  </a>
+  <div class="card authcard" id="authCard">
+    <h1 class="authh">Buat akun baru</h1>
+    <p class="sub">Cukup username dan password. Setelah daftar kamu langsung login dan kembali ke form order.</p>
+    <form id="authForm" data-mode="register" novalidate>
+      <label for="au">Username</label>
+      <input id="au" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="mis. rani_glow" required>
+      <label for="ap">Password</label>
+      <div class="pwbox"><input id="ap" type="password" autocomplete="new-password" placeholder="minimal 6 karakter" required><button type="button" id="pwToggle" aria-label="Tampilkan password">Lihat</button></div>
+      <div class="meter" aria-hidden="true"><i id="meterBar"></i></div><p class="meter-t" id="meterTxt"></p>
+      <label for="ap2">Ulangi password</label>
+      <input id="ap2" type="password" autocomplete="new-password" placeholder="ketik ulang password" required>
+      <p class="formerr" id="formErr" role="alert" hidden></p>
+      <button class="btn" id="authGo" type="submit"><span class="lbl">Daftar sekarang</span></button>
+    </form>
+    <p class="fineprint">Sudah punya akun? <a id="swapLink" href="/login">Masuk</a></p>
+    <p class="fineprint"><a href="/">&larr; Kembali ke beranda</a></p>
+  </div>
+</main>
+<div id="toast" class="toast" role="status"></div>
+<script src="/auth.js"></script>
+</body>
+</html>

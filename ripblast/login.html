@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Masuk – RipBlast</title>
+<meta name="theme-color" content="#090b14">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="authpage">
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<main class="authwrap">
+  <a class="logo" href="/" aria-label="Kembali ke beranda RipBlast">
+    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#ff5b4f"/><path d="M17.5 5 8 18h6l-1.5 9L24 13h-6.5z" fill="#1d0805"/></svg>
+    <b>RipBlast</b>
+  </a>
+  <div class="card authcard" id="authCard">
+    <h1 class="authh">Selamat datang kembali</h1>
+    <p class="sub">Masuk untuk melanjutkan order dan melihat status nomor serta OTP-mu.</p>
+    <form id="authForm" data-mode="login" novalidate>
+      <label for="au">Username</label>
+      <input id="au" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="mis. rani_glow" required>
+      <label for="ap">Password</label>
+      <div class="pwbox"><input id="ap" type="password" autocomplete="current-password" placeholder="minimal 6 karakter" required><button type="button" id="pwToggle" aria-label="Tampilkan password">Lihat</button></div>
+      <p class="formerr" id="formErr" role="alert" hidden></p>
+      <button class="btn" id="authGo" type="submit"><span class="lbl">Masuk</span></button>
+    </form>
+    <p class="fineprint">Belum punya akun? <a id="swapLink" href="/register">Daftar gratis</a></p>
+    <p class="fineprint">Lupa password? Hubungi admin lewat <a href="/#contact">form Contact</a>.</p>
+    <p class="fineprint"><a href="/">&larr; Kembali ke beranda</a></p>
+  </div>
+</main>
+<div id="toast" class="toast" role="status"></div>
+<script src="/auth.js"></script>
+</body>
+</html>

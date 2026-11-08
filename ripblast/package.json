@@ -1,0 +1,15 @@
+{
+  "name": "ripblast",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}
