@@ -542,3 +542,32 @@ $("#cf").addEventListener("submit", e => {
   }
   setInterval(loadConfig, 60000);
 })();
+
+/* ===== Global lounge ===== */
+(function () {
+  const list = $("#chatList"), form = $("#chatForm"), input = $("#chatInput"), refresh = $("#chatRefresh");
+  if (!list || !form) return;
+  const paint = messages => {
+    if (!messages?.length) { list.innerHTML = '<div class="chat-empty">Belum ada percakapan. Jadilah yang pertama menyapa.</div>'; return; }
+    list.innerHTML = messages.map(m => `<article class="chat-message ${m.sender_kind === "admin" ? "admin" : m.sender_name === ME?.username ? "mine" : ""}"><div class="chat-author"><strong>${esc(m.sender_name)}</strong>${m.sender_kind === "admin" ? '<span class="admin-badge">ADMIN</span>' : ""}</div><div class="chat-body">${esc(m.body)}</div><div class="chat-time">${fmtDate(m.created_at)}</div></article>`).join("");
+    list.scrollTop = list.scrollHeight;
+  };
+  async function load() {
+    const { r, d } = await api("/api/chat");
+    if (r.status === 401) { list.innerHTML = '<div class="chat-empty">Masuk dulu untuk melihat dan ikut chat global.</div>'; return; }
+    if (r.ok) paint(d.messages);
+  }
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!input.value.trim()) return;
+    input.disabled = true;
+    const { r, d } = await api("/api/chat", { method: "POST", body: JSON.stringify({ body: input.value }) });
+    input.disabled = false;
+    if (!r.ok) return toast(d.error || "Pesan gagal dikirim");
+    input.value = "";
+    await load();
+  });
+  refresh?.addEventListener("click", load);
+  load();
+  setInterval(load, 15000);
+})();

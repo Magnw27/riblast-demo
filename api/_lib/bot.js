@@ -35,7 +35,7 @@ const HELP = [
   "/settings — panel harga, stok, maintenance",
   "/setprice indo 5000 · /negara us off (buka/tutup negara di web)",
   "/maintenance on [pesan] · /maintenance off",
-  "/announce teks · /announce off · /wa 628xxx",
+  "/announce teks · /announce off · /chat teks (mendukung multiline) · /wa 628xxx",
   "/notif on|off — notifikasi user baru",
   "",
   "<b>Laporan</b>",
@@ -590,6 +590,12 @@ const COMMANDS = {
     await delSetting(q, "maintenance_msg");
     return say("✅ Maintenance <b>OFF</b>: order dibuka lagi.");
   },
+  async chat({ q, say, rest, msg }) {
+    const body = String(rest ?? '').trim().slice(0, 4000);
+    if (!body) return say('Contoh: <code>./chat Promo hari ini</code> — baris baru tetap dipertahankan.');
+    const [row] = await q`INSERT INTO chat_messages (sender_name, sender_kind, body, telegram_message_id) VALUES ('Admin RipBlast', 'admin', ${body}, ${msg.message_id}) RETURNING id`;
+    return say(`Chat global terkirim (#${row.id}).`);
+  },
   async announce({ q, say, rest }) {
     if (!rest) return say("Contoh: <code>/announce Promo Malaysia hari ini</code> atau <code>/announce off</code>");
     if (/^(off|hapus|-)$/i.test(rest)) {
@@ -647,9 +653,9 @@ export async function handleMessage(msg) {
   const isAdmin = adminIds().includes(chatId);
   const say = (t, extra = {}) => sendHtml(chatId, t, extra);
 
-  const cmd = text.match(/^\/([a-z_]+)(?:@\w+)?(?:\s+([\s\S]*))?$/i);
+  const cmd = text.match(/^(?:\/([a-z_]+)|\.\/chat)(?:@\w+)?(?:\s+([\s\S]*))?$/i);
   if (cmd) {
-    const name = cmd[1].toLowerCase();
+    const name = cmd[1] ? cmd[1].toLowerCase() : 'chat';
     const rest = (cmd[2] || "").trim();
     if ((name === "start" || name === "id") && !isAdmin) {
       return say(`Chat ID kamu: <code>${chatId}</code>\n\nKalau kamu pemilik bot ini, isi <code>TELEGRAM_ADMIN_CHAT_ID</code> dengan angka di atas di Vercel (Settings → Environment Variables), lalu redeploy.`);
