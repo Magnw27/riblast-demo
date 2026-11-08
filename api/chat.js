@@ -9,6 +9,8 @@ export default async function handler(req, res) {
     const user = await getUser(req);
     if (!user) return send(res, 401, { error: "Silakan login untuk masuk chat." });
     const q = await db();
+    // Fallback cleanup keeps retention bounded even if the daily cron has not run yet.
+    await q`DELETE FROM chat_messages WHERE created_at < now() - interval '24 hours'`;
     if (req.method === "GET") {
       const before = Number(req.query.before) || 0;
       const rows = before
