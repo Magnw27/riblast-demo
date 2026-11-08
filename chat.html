@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chat Global | RipBlast</title>
+<meta name="description" content="Bergabung dalam chat global RipBlast dan dapatkan pengumuman terbaru dari admin.">
+<meta name="theme-color" content="#090b14">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/chat.css">
+</head>
+<body class="chat-page">
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<header class="nav"><a class="logo" href="/" aria-label="RipBlast beranda"><svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#ff5b4f"/><path d="M17.5 5 8 18h6l-1.5 9L24 13h-6.5z" fill="#1d0805"/></svg><b>RipBlast</b></a><nav class="links" aria-label="Navigasi utama"><div class="nav-group"><span class="nav-group-label">INFO</span><a href="/">Home</a><a href="/order">Order</a></div><span class="nav-separator" aria-hidden="true"></span><div class="nav-group"><span class="nav-group-label">KOMUNITAS</span><a class="on" href="/chat">Chat global</a></div></nav><a class="btn sm ghost" href="/order">Ke order</a></header>
+<main class="chat-page-main"><section class="chat-hero"><div class="section-kicker"><i class="dot"></i> Community lounge</div><h1>Tempat ngobrol<br><span class="hl">tanpa batas.</span></h1><p class="lead">Satu ruang untuk bertanya, berbagi kabar, dan menerima pengumuman penting langsung dari admin.</p><div class="chat-meta"><span><i class="status-dot"></i> Pesan disimpan 24 jam</span><span>Admin aktif via Telegram</span></div></section>
+<section class="chat-shell card chat-page-shell"><div class="chat-head"><div><b>RipBlast Lounge</b><span>Hormati sesama pengguna dan jaga percakapan tetap relevan.</span></div><button class="iconbtn" id="chatRefresh" type="button" aria-label="Muat ulang chat">↻</button></div><div id="chatList" class="chat-list" aria-live="polite"><div class="chat-empty">Memuat percakapan…</div></div><form id="chatForm" class="chat-form"><label class="sr-only" for="chatInput">Tulis pesan</label><textarea id="chatInput" rows="2" maxlength="4000" placeholder="Tulis pesan untuk komunitas…"></textarea><button class="btn" type="submit">Kirim pesan</button></form></section></main>
+<footer class="wrap foot"><span>© 2026 RipBlast</span><a href="/">Kembali ke beranda</a></footer><div id="toast" class="toast" role="status"></div>
+<script src="/chat-page.js"></script></body></html>

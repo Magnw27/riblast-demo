@@ -3,8 +3,8 @@ let toastT;
 const toast = m => { const t = $("#toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 3200); };
 
 /* Tujuan setelah berhasil: hanya path internal, bukan URL luar */
-const raw = new URLSearchParams(location.search).get("next") || "/#order";
-const NEXT = raw.startsWith("/") && !raw.startsWith("//") && !raw.startsWith("/\\") ? raw : "/#order";
+const raw = new URLSearchParams(location.search).get("next") || "/order";
+const NEXT = raw.startsWith("/") && !raw.startsWith("//") && !raw.startsWith("/\\") ? raw : "/order";
 
 const swap = $("#swapLink");
 if (swap) swap.href = swap.getAttribute("href") + "?next=" + encodeURIComponent(NEXT);
